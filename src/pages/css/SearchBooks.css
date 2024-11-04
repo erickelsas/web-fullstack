@@ -1,0 +1,120 @@
+.books-container{
+    max-height: 72dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-bottom: 5vh;
+
+    background-color: #EAE0D5
+}
+
+.books-container::-webkit-scrollbar {
+height: 10px;
+width: 10px;
+}
+.books-container::-webkit-scrollbar-track {
+border-radius: 5px;
+background-color: #EAE0D5;
+}
+
+.books-container::-webkit-scrollbar-track:hover {
+background-color: #EAE0D5;
+}
+
+.books-container::-webkit-scrollbar-track:active {
+background-color: #EAE0D5;
+}
+
+.books-container::-webkit-scrollbar-thumb {
+border-radius: 5px;
+background-color: #5E503F;
+}
+
+.books-container::-webkit-scrollbar-thumb:hover {
+background-color: #C6AD8F;
+}
+
+.books-container::-webkit-scrollbar-thumb:active {
+background-color: #C6AD8F;
+}
+
+.btn.btn-primary{
+    background-color: #22333B;
+    color: #fff;
+    border-color: #22333B;
+}
+
+.page-item.active .page-link{
+    background-color: #22333B;
+    border-color: #22333B;
+}
+
+.page-link{
+    color: #22333B;
+}
+
+.lds-ellipsis,
+.lds-ellipsis div {
+  box-sizing: border-box;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33.33333px;
+  width: 13.33333px;
+  height: 13.33333px;
+  border-radius: 50%;
+  background: currentColor;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+@media (max-width: 768px) {
+    .books-container{
+        padding-bottom: 15vh;
+    }
+ }

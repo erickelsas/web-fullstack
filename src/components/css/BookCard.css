@@ -1,0 +1,14 @@
+.cardContainer:hover{
+    filter: brightness(80%);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.cardContainer{
+    background-color: #C6AD8F;
+}
+
+.list-group-item{
+    background-color: #C6AD8F;
+    border-color: #5E503F;
+}
