@@ -1,14 +1,66 @@
 .cardContainer:hover{
-    filter: brightness(80%);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 .cardContainer{
-    background-color: #C6AD8F;
+    max-height: 45vh;
+    padding: 0;
+    background-color: var(--background-card);
+
+    filter: drop-shadow(0px 4px 7px rgba(0, 0, 0, 0.3));
 }
 
-.list-group-item{
-    background-color: #C6AD8F;
+.list-group-item {
+    background-color: var(--background-card);
     border-color: #5E503F;
+    max-height: 20vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
+
+.list-group-item p {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-image-container{
+    flex: 1;
+    overflow: hidden;
+    transition: flex 0.3s ease;
+    filter: brightness(50%);
+}
+
+.card-image-container:hover {
+    filter: brightness(90%);
+
+    flex: 5;
+}
+
+.card-image-container:hover ~ .card-body .list-group-item {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+.card-body{
+    flex: 3 1;
+    
+}
+
+.card-img-top{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-image-container:hover .list-group-item{
+    max-height: 10vh;
 }

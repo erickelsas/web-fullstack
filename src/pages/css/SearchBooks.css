@@ -1,11 +1,16 @@
 .books-container{
-    max-height: 72dvh;
+    height: 72dvh;
     overflow-y: auto;
     overflow-x: hidden;
 
-    padding-bottom: 5vh;
+    border-radius: 8px;
 
-    background-color: #EAE0D5
+    padding-bottom: 5vh;
+    padding-top: 2vh;
+
+    background: linear-gradient(to top, #D9A76A 0%, #eacda3 100%);
+
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,0.5)
 }
 
 .books-container::-webkit-scrollbar {

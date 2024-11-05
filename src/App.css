@@ -1,5 +1,12 @@
+:root{
+  --footer: #0D0D0D;
+  --header: #0D0D0D;
+  --background: #D2D8D9;
+  --background-card: #D2D8D9;
+}
+
 main{
   padding-top: 9vh;
   height: 100vh;
-  background-color: #EAE0D5;
+  background-color: var(--background);
 }

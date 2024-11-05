@@ -1,6 +1,6 @@
 // Header.js
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Container } from 'react-bootstrap';
 
 import './css/Header.css'
 

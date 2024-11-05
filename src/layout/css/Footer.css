@@ -1,5 +1,7 @@
 footer{
-    background-color: #22333b;
+    background-color: var(--footer);
     color: #fff;
     padding-top: 1rem;
+
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.5));
 }

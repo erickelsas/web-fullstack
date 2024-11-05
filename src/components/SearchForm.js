@@ -4,9 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import { BookContext } from '../context/BookContext';
 
+import './css/SearchForm.css'
+
 function SearchForm({ onSearch, setError, setQuery }) {
   const searchRef = useRef(null);
-  const { searchResult, updateSearchResults } = useContext(BookContext);
+  const { updateSearchResults } = useContext(BookContext);
 
   const handleSearchClick = () => {
     const query = searchRef.current.value.trim();
