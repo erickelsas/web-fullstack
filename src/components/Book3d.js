@@ -32,7 +32,8 @@ function Book3d({ book }) {
     } else {
       bookRef.current.removeEventListener('mousemove', handleMouseMove);
     }
-  }, [isMouseDown, handleMouseMove]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMouseDown]);
 
   useEffect(() => {
     if(book['covers'] === undefined){

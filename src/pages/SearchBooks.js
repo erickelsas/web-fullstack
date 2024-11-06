@@ -86,7 +86,8 @@ function SearchBooks() {
                 </Pagination.Item>
             );
         });
-    }, [startPage, endPage, page, handlePageChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [startPage, endPage, page]);
 
     return (
         <Container className='search-books'>
