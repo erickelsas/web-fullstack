@@ -8,14 +8,12 @@ import Footer from './layout/Footer';
 function App() {
   return (
     <Router>
-      <Header />
       <main>
         <Routes>
           <Route path="/" element={<SearchBooks />} />
           <Route path="/book/:bookId" element={<BookDetails />} />
         </Routes>
       </main>
-      <Footer />
     </Router>
   );
 }

@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router-dom';
 
 import './css/BookCard.css'
+import { BookContext } from '../context/BookContext';
 
 function BookCard({ book }) {
+  const { setSelectedBook } = useContext(BookContext);
+
   const [ coverUrl, setCoverUrl ] = useState('');
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    console.log(book)
-    navigate(`/books/${book.key.split('/')[2]}`);
+    setSelectedBook(book);
+    console.log(book);
+    if(book.cover_edition_key !== undefined){
+      navigate(`/book/${book.cover_edition_key}`);
+    } else {
+      navigate(`/book/${book.edition_key[0]}`)
+    }
   }
 
   useEffect(() => {
@@ -39,9 +47,9 @@ function BookCard({ book }) {
                     <p><strong>Autor:</strong> {book.author_name?.join(', ') || 'Desconhecido'}</p>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                    <p><strong>Ano de publicação:</strong> {Array.isArray(book.publish_year) && book.publish_year.length > 0 
-                                                                ? book.publish_year[0] 
-                                                                : book.publish_year || 'Indisponível'}</p>
+                    <p><strong>Ano de publicação:</strong> {Array.isArray(book.publish_date) && book.publish_date.length > 0 
+                                                                ? book.publish_date[0] 
+                                                                : book.publish_date || 'Indisponível'}</p>
                 </ListGroup.Item>
             </ListGroup>
         </Card.Body>

@@ -89,7 +89,8 @@ function SearchBooks() {
     }, [startPage, endPage, page]);
 
     return (
-        <Container>
+        <Container className='search-books'>
+            <h1>BookSearch</h1>
             <SearchForm setError={setError} setQuery={setQuery} onSearch={(query) => handleSearch(query)}/>
             <Row className='books-container'>
                 {loading && (<div className='d-flex justify-content-center'><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>)}

@@ -1,0 +1,91 @@
+*{
+    user-select: none;
+}
+
+img{
+    user-select: none;
+}
+
+.book-container{
+    display: inline-block;
+    perspective: 1000px;
+
+    user-select: none;
+}
+
+.book{
+    position: relative;
+
+    transform-style: preserve-3d;
+}
+
+.book, .front-cover{
+    transition: all 0.75s ease-in-out;
+    display: inline-block;
+}
+
+.front-cover{
+    min-height: 300px;
+    min-width: 200px;
+    background-color: #462826;
+}
+
+.front-cover, .back-cover{
+    transform-style: preserve-3d;
+}
+
+.front-cover::after,
+.front-cover::before{
+    content: "";
+    position: absolute;
+    background-size: 100% 100%;
+    width: 45px;
+}
+
+.front-cover::after{
+    background: url('./assets/middle-cover.jpg');
+    height: 99%;
+
+    top: 0.5%;
+    right: 2px;
+
+    transform-origin: right;
+    transform: rotateY(-90deg);
+}
+
+.front-cover::before{
+    background: #462826;
+    border: px solid #462826;
+    height: 100%;
+
+    left: 0px;
+
+    transform-origin: left;
+    transform: rotateY(90deg);
+}
+
+.back-cover{
+    position: absolute;
+    border: 1px solid #462826;
+    width: 100%;
+    height: 100%;
+    background: #462826;
+
+    top: 0;
+    left: 0;
+
+    transform: rotateY(180deg) translateZ(45px);
+}
+
+.shadow{
+    position: absolute;
+    width: 100%;
+    height: 45px;
+
+    bottom: -40px;
+
+    background: radial-gradient(rgba(0,0,0,0.3), transparent);
+
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
