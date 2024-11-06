@@ -49,7 +49,7 @@ function BookDetails() {
     if(Array.isArray(selectedBook?.seed)){
       fetchAuthor();
     }  
-  }, [selectedBook]);
+  }, [selectedBook, navigate]);
   
   useEffect(() => {
     setLoading(true);
@@ -101,7 +101,7 @@ function BookDetails() {
                 <div className='author-container'>
                   <div className='image-container'>
                     <FaUser size={48} style={{position: 'absolute', bottom:0, left: 8}} color='#2D92F6'/>
-                    {author && author['key'] !== undefined && <img className='author-image' src={`https://covers.openlibrary.org/a/olid/${author.key.split('/')[2]}-M.jpg`}/>}
+                    {author && author['key'] !== undefined && <img alt={`${author.name}`} className='author-image' src={`https://covers.openlibrary.org/a/olid/${author.key.split('/')[2]}-M.jpg`}/>}
                   </div>
                   {author && author['name'] !== undefined && <h2 className='author-title'>{author.name}</h2>}
               </div>

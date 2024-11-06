@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import SearchBooks from './pages/SearchBooks';
 import BookDetails from './pages/BookDetails';
-import Header from './layout/Header';
-import Footer from './layout/Footer';
 
 function App() {
   return (

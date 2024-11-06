@@ -63,7 +63,7 @@ function SearchBooks() {
                 setError('');
             }
         }
-    }, [searchResult, hasSearched]);
+    }, [searchResult, hasSearched, error]);
 
     const maxVisiblePages = 2;
 
@@ -86,7 +86,7 @@ function SearchBooks() {
                 </Pagination.Item>
             );
         });
-    }, [startPage, endPage, page]);
+    }, [startPage, endPage, page, handlePageChange]);
 
     return (
         <Container className='search-books'>

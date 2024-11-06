@@ -32,13 +32,13 @@ function Book3d({ book }) {
     } else {
       bookRef.current.removeEventListener('mousemove', handleMouseMove);
     }
-  }, [isMouseDown]);
+  }, [isMouseDown, handleMouseMove]);
 
   useEffect(() => {
     if(book['covers'] === undefined){
         setLoading(false);
     }
-  }, []);
+  }, [book]);
 
   return (
     <div className='book-container'
@@ -50,7 +50,7 @@ function Book3d({ book }) {
         <div className='book'
         style={loading ? {transform: `rotateY(${rotation}deg)`, display: 'none'} : {transform: `rotateY(${rotation}deg)`, display: 'flex'}}>
             <div className='front-cover'>
-            {book['covers'] !== undefined && <img onLoad={() => setLoading(false)} src={`https://covers.openlibrary.org/b/id/${book.covers[0].toString()}-L.jpg`}/>}
+            {book['covers'] !== undefined && <img alt={`${book.title} cover`} onLoad={() => setLoading(false)} src={`https://covers.openlibrary.org/b/id/${book.covers[0].toString()}-L.jpg`}/>}
             </div>
             <div className='back-cover'></div>
             <div className='shadow'></div>
