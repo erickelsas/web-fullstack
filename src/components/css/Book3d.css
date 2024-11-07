@@ -39,7 +39,7 @@ img{
     content: "";
     position: absolute;
     background-size: 100% 100%;
-    width: 45px;
+    width: 45.5px;
 }
 
 .front-cover::after{
@@ -62,6 +62,10 @@ img{
 
     transform-origin: left;
     transform: rotateY(90deg);
+}
+
+.front-cover img{
+    user-select: none;
 }
 
 .back-cover{
