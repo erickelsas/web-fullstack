@@ -117,6 +117,69 @@ background-color: #C6AD8F;
   left: 56px;
   animation: lds-ellipsis3 0.6s infinite;
 }
+
+.title-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.title-container .addButton {
+  background-color: transparent;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 50%;
+  color: #F7CE68;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  overflow: visible;
+}
+
+.title-container .addButton::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #FBAB7E, #F7CE68, #FBAB7E);
+  z-index: -1;
+  animation: rotateBorder 2s linear infinite paused;
+}
+
+.title-container .addButton::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-radius: 50%;
+  background-color: #0F1624;
+  z-index: -1;
+}
+
+.title-container .addButton:hover::before {
+  animation-play-state: running;
+}
+
+@keyframes rotateBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);
