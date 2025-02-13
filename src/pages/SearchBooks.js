@@ -25,12 +25,14 @@ function SearchBooks() {
         title: '',
         publish_year: '',
         coverUri: '',
-        authorId: '',
-        authorName: '',
-        authorPhotoUri: ''
+        authorId: ''
     });
     const [authors, setAuthors] = useState([]);
     const [isNewAuthor, setIsNewAuthor] = useState(false);
+    const [newAuthor, setNewAuthor] = useState({
+        name: '',
+        photoUri: ''
+    });
 
     const handleSearch = async (query, page = 1) => {
         setError('');
@@ -90,17 +92,37 @@ function SearchBooks() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('https://webfullstack-back.onrender.com/books', {
+            let authorId = newBook.authorId;
+
+            if (isNewAuthor) {
+                const authorResponse = await fetch('https://webfullstack-back.onrender.com/authors', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(newAuthor)
+                });
+                const authorData = await authorResponse.json();
+                if (authorData.id) {
+                    authorId = authorData.id;
+                } else {
+                    console.error('Erro ao criar autor');
+                    return;
+                }
+            }
+
+            const bookResponse = await fetch('https://webfullstack-back.onrender.com/books', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(newBook)
+                body: JSON.stringify({ ...newBook, authorId })
             });
-            const data = await response.json();
-            if (data.id) {
-                console.log('Livro adicionado com sucesso:', data);
+            const bookData = await bookResponse.json();
+            if (bookData.id) {
+                console.log('Livro adicionado com sucesso:', bookData);
             } else {
                 console.error('Erro ao adicionar livro');
             }
@@ -247,16 +269,16 @@ function SearchBooks() {
                                     <Form.Control 
                                         type="text" 
                                         placeholder="Nome do autor" 
-                                        value={newBook.authorName} 
-                                        onChange={(e) => setNewBook({ ...newBook, authorName: e.target.value })}
+                                        value={newAuthor.name} 
+                                        onChange={(e) => setNewAuthor({ ...newAuthor, name: e.target.value })}
                                         style={{ color: 'white' }}
                                     />
                                     <Form.Label>Foto do Autor</Form.Label>
                                     <Form.Control 
                                         type="text" 
                                         placeholder="URL da foto do autor" 
-                                        value={newBook.authorPhotoUri} 
-                                        onChange={(e) => setNewBook({ ...newBook, authorPhotoUri: e.target.value })}
+                                        value={newAuthor.photoUri} 
+                                        onChange={(e) => setNewAuthor({ ...newAuthor, photoUri: e.target.value })}
                                     />
                                 </div>
                             )}

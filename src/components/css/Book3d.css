@@ -4,6 +4,7 @@
 
 img{
     user-select: none;
+    max-height: 600px;
 }
 
 .book-container{

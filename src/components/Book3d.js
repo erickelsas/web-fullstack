@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import './css/Book3d.css'
 
 function Book3d({ book }) {
+  console.log(book);
+
   const [loading, setLoading] = useState(true);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [rotation, setRotation] = useState(0);
@@ -51,7 +53,7 @@ function Book3d({ book }) {
         <div className='book'
         style={loading ? {transform: `rotateY(${rotation}deg)`, display: 'none'} : {transform: `rotateY(${rotation}deg)`, display: 'flex'}}>
             <div className='front-cover'>
-            {book['covers'] !== undefined && <img alt={`${book.title} cover`} onLoad={() => setLoading(false)} src={`https://covers.openlibrary.org/b/id/${book.covers[0].toString()}-L.jpg`}/>}
+            {book.coverUri !== undefined && <img alt={`${book.title} cover`} onLoad={() => setLoading(false)} src={book.coverUri}/>}
             </div>
             <div className='back-cover'></div>
             <div className='shadow'></div>

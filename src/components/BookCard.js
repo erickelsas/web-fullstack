@@ -23,7 +23,7 @@ function BookCard({ book }) {
   return (
     <Card style={{ maxWidth: '18rem' }} className="cardContainer" onClick={handleClick}>
         
-          {coverUrl && (<div className='card-image-container'>
+          {book.coverUri != undefined && (<div className='card-image-container'>
           <Card.Img variant="top" src={book.coverUri} alt={book.title} />
         </div>)}
         
