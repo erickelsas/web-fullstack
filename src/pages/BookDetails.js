@@ -21,29 +21,8 @@ function BookDetails() {
   const { selectedBook } = useContext(BookContext);
 
   const [book, setBook] = useState(null);
-  const [author, setAuthor] = useState(null);
 
   let { bookId } = useParams();
-
-  useEffect(() => {  
-    if (selectedBook === null) {
-      navigate('/home');
-    }
-    const fetchAuthor = async () => {
-      try {
-        const data = await fetchAuthorData(token, selectedBook.authorId);
-
-        if (data) {
-          setAuthor(data);
-        } else {
-          console.error("Nenhum dado encontrado.");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar o autor:", error);
-      }
-    };
-    fetchAuthor();
-  }, [selectedBook, navigate]);
 
   useEffect(() => {
     setLoading(true);
@@ -51,11 +30,8 @@ function BookDetails() {
       try {
         const data = await fetchBookById(token, bookId);
 
-        if (data) {
-          const date = new Date(data.publish_year);
-          const options = { year: 'numeric', month: 'long', day: '2-digit' };
 
-          data.publish_date = date.toLocaleDateString('pt-BR', options);
+        if (data) {
           setBook(data);
         } else {
           console.error("Nenhum dado encontrado.");
@@ -102,16 +78,16 @@ function BookDetails() {
                 <div className='author-container'>
                   <div className='image-container'>
                     <FaUser size={48} style={{ position: 'absolute', bottom: 0, left: 8 }} color='#2D92F6' />
-                    {author && author.photoUri && (
+                    {book.author && book.author.photoUri && (
                       <img 
-                        alt={author.name} 
+                        alt={book.author.name} 
                         className='author-image' 
-                        src={author.photoUri} 
+                        src={book.author.photoUri} 
                       />
                     )}
                   </div>
-                  {author && author.name && (
-                    <h2 className='author-title'>{author.name}</h2>
+                  {book && book.author?.name && (
+                    <h2 className='author-title'>{book.author.name}</h2>
                   )}
                 </div>
               </div>

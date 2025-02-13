@@ -15,27 +15,16 @@ function BookCard({ book }) {
 
   const handleClick = () => {
     setSelectedBook(book);
-    console.log(book);
     if(book.id !== undefined){
       navigate(`/book/${book.id}`);
     }
   }
 
-  useEffect(() => {
-      const getCover = () => {
-          if (book.coverUri) {
-            setCoverUrl(book.coverUri);
-          }
-      };
-
-      getCover();
-  }, [book.coverUri]);
-
   return (
     <Card style={{ maxWidth: '18rem' }} className="cardContainer" onClick={handleClick}>
         
           {coverUrl && (<div className='card-image-container'>
-          <Card.Img variant="top" src={coverUrl} alt={book.title} />
+          <Card.Img variant="top" src={book.coverUri} alt={book.title} />
         </div>)}
         
         <Card.Body>
