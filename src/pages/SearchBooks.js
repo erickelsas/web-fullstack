@@ -40,7 +40,7 @@ function SearchBooks() {
                 setPage(1);
             }
 
-            const res = await fetchBooks(token, query, page, 20);
+            const res = await fetchBooks(token, query, page, 10);
 
             if (res.books) {
                 updateSearchResults(res.books);
