@@ -1,49 +1,57 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-
 import './css/SearchBooks.css';
-
 import SearchForm from '../components/SearchForm';
 import Container from 'react-bootstrap/Container';
-
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import { fetchBooks } from '../services/booksApi';
 import { BookContext } from '../context/BookContext';
 import BookCard from '../components/BookCard';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, Modal, Button, Form } from 'react-bootstrap';
+import { useAuth } from '../context/AuthContext';
 
 function SearchBooks() {
+    const { token } = useAuth();
     const { searchResult, updateSearchResults } = useContext(BookContext);
-    
+
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [query, setQuery] = useState('');
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    
     const [hasSearched, setHasSearched] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [newBook, setNewBook] = useState({
+        title: '',
+        publish_year: '',
+        coverUri: '',
+        authorId: '',
+        authorName: '',
+        authorPhotoUri: ''
+    });
+    const [authors, setAuthors] = useState([]);
+    const [isNewAuthor, setIsNewAuthor] = useState(false);
 
     const handleSearch = async (query, page = 1) => {
+        setError('');
         setLoading(true);
         try {
             if (page === 1) {
                 setPage(1);
             }
-        
-            const res = await fetchBooks(query, page);
-        
-            const books = res.docs;
-            const numberOfBooks = res.numFound;
 
-            if (books) {
-                updateSearchResults(books);
-                setTotalPages(Math.round(numberOfBooks / 20));
+            const res = await fetchBooks(token, query, page, 20);
+
+            if (res.books) {
+                updateSearchResults(res.books);
+                setTotalPages(res.totalPages);
             } else {
                 console.error("Nenhum resultado encontrado.");
+                setError('Nenhum livro encontrado.');
             }
         } catch (error) {
             console.error("Erro ao buscar livros:", error);
+            setError("Erro ao buscar livros");
         } finally {
             setLoading(false);
             setHasSearched(true);
@@ -56,14 +64,51 @@ function SearchBooks() {
     };
 
     useEffect(() => {
-        if (hasSearched && !error) {
-            if (searchResult.length === 0) {
-                setError('Nenhum livro encontrado.');
-            } else {
-                setError('');
+        handleSearch(query, page);
+    }, []);
+
+    useEffect(() => {
+        const fetchAuthors = async () => {
+            try {
+                const response = await fetch('https://webfullstack-back.onrender.com/authors', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                setAuthors(data);
+            } catch (error) {
+                console.error('Erro ao buscar autores:', error);
             }
+        };
+        fetchAuthors();
+    }, [token]);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('https://webfullstack-back.onrender.com/books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(newBook)
+            });
+            const data = await response.json();
+            if (data.id) {
+                console.log('Livro adicionado com sucesso:', data);
+            } else {
+                console.error('Erro ao adicionar livro');
+            }
+        } catch (error) {
+            console.error('Erro ao criar livro:', error);
         }
-    }, [searchResult, hasSearched, error]);
+        handleCloseModal();
+    };
 
     const maxVisiblePages = 2;
 
@@ -86,7 +131,6 @@ function SearchBooks() {
                 </Pagination.Item>
             );
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [startPage, endPage, page]);
 
     return (
@@ -94,14 +138,14 @@ function SearchBooks() {
             <div className='title-container'>
                 <div></div>
                 <h1>BookSearch</h1>
-                <button className='addButton'>+</button>
+                <button className='addButton' onClick={handleShowModal}>+</button>
             </div>
             <SearchForm setError={setError} setQuery={setQuery} onSearch={(query) => handleSearch(query)}/>
             <Row className='books-container'>
                 {loading && (<div className='d-flex justify-content-center'><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>)}
                 {error && (<div className='d-flex justify-content-center'><Alert variant='danger'> {error} </Alert></div>)}
                 <Row className="justify-content-center gap-3">
-                    {!loading && searchResult.map(book => <BookCard key={book.key} book={book}/>)}
+                    {!loading && searchResult.map(book => <BookCard key={book.id} book={book}/>)}
                 </Row>
             </Row>
             {!loading && totalPages > 1 && (
@@ -129,6 +173,101 @@ function SearchBooks() {
                     </Pagination>
                 </Row>
             )}
+
+            {/* Modal de Adição de Livro */}
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Adicionar Livro</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Título</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                value={newBook.title} 
+                                onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
+                                required 
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Ano de Publicação</Form.Label>
+                            <Form.Control 
+                                type="number" 
+                                value={newBook.publish_year} 
+                                onChange={(e) => setNewBook({ ...newBook, publish_year: e.target.value })}
+                                required 
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>URL da Foto da Capa</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Insira a URL da capa" 
+                                value={newBook.coverUri} 
+                                onChange={(e) => setNewBook({ ...newBook, coverUri: e.target.value })}
+                                required 
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Autor</Form.Label>
+                            <div>
+                                <Form.Check
+                                    type="radio"
+                                    label="Selecionar Autor Existente"
+                                    name="authorType"
+                                    checked={!isNewAuthor}
+                                    onChange={() => setIsNewAuthor(false)}
+                                />
+                                <Form.Check
+                                    type="radio"
+                                    label="Adicionar Novo Autor"
+                                    name="authorType"
+                                    checked={isNewAuthor}
+                                    onChange={() => setIsNewAuthor(true)}
+                                />
+                            </div>
+                            {!isNewAuthor ? (
+                                <Form.Control 
+                                    as="select" 
+                                    value={newBook.authorId} 
+                                    onChange={(e) => setNewBook({ ...newBook, authorId: e.target.value })}
+                                >
+                                    <option value="">Selecione</option>
+                                    {authors.map(author => (
+                                        <option key={author.id} value={author.id}>{author.name}</option>
+                                    ))}
+                                </Form.Control>
+                            ) : (
+                                <div className="mt-2">
+                                    <Form.Label>Nome do Autor</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        placeholder="Nome do autor" 
+                                        value={newBook.authorName} 
+                                        onChange={(e) => setNewBook({ ...newBook, authorName: e.target.value })}
+                                        style={{ color: 'white' }}
+                                    />
+                                    <Form.Label>Foto do Autor</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        placeholder="URL da foto do autor" 
+                                        value={newBook.authorPhotoUri} 
+                                        onChange={(e) => setNewBook({ ...newBook, authorPhotoUri: e.target.value })}
+                                    />
+                                </div>
+                            )}
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
+                            Adicionar Livro
+                        </Button>
+                    </Form>
+                </Modal.Body>
+            </Modal>
         </Container>
     );
 }

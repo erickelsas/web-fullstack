@@ -210,3 +210,103 @@ background-color: #C6AD8F;
         padding-bottom: 15vh;
     }
  }
+
+.modal-content {
+  background-color: #0D1821; 
+  border-radius: 10px;
+  padding: 20px;
+  color: #fff; 
+  max-width: 500px;
+  margin: auto;
+}
+
+/* Título do Modal */
+.modal-header {
+  border-bottom: none;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.modal-header h5 {
+  color: #F7CE68;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Corpo do Modal */
+.modal-body {
+  padding: 0 20px;
+}
+
+.modal-body label {
+  font-size: 1rem;
+  color: #F7CE68;
+  margin-bottom: 8px;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="file"],
+.modal-body input[type="number"],
+.modal-body select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  background-color: #2C3A47;
+  color: #fff;
+  border: 2px solid #F7CE68; 
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.modal-body input::placeholder{
+  color: #fff;
+}
+
+.modal-body input[type="text"]:focus,
+.modal-body input[type="file"]:focus,
+.modal-body input[type="number"],
+.modal-body select:focus {
+  border-color: #F7CE68; 
+  outline: none;
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.modal-footer .buttonCreate {
+  background-color: #F7CE68;
+  color: #0D1821; 
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-footer .buttonCreate:hover {
+  background-color: #FFB93E;
+}
+
+.modal-body .upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.modal-body .upload-container img {
+  max-width: 150px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.modal-body .error-message {
+  color: #FF4F58;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}

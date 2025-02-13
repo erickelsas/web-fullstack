@@ -16,22 +16,20 @@ function BookCard({ book }) {
   const handleClick = () => {
     setSelectedBook(book);
     console.log(book);
-    if(book.cover_edition_key !== undefined){
-      navigate(`/book/${book.cover_edition_key}`);
-    } else {
-      navigate(`/book/${book.edition_key[0]}`)
+    if(book.id !== undefined){
+      navigate(`/book/${book.id}`);
     }
   }
 
   useEffect(() => {
       const getCover = () => {
-          if (book.cover_edition_key) {
-            setCoverUrl(`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`);
+          if (book.coverUri) {
+            setCoverUrl(book.coverUri);
           }
       };
 
       getCover();
-  }, [book.cover_edition_key]);
+  }, [book.coverUri]);
 
   return (
     <Card style={{ maxWidth: '18rem' }} className="cardContainer" onClick={handleClick}>
@@ -44,12 +42,12 @@ function BookCard({ book }) {
             <Card.Title>{book.title}</Card.Title>
             <ListGroup variant="flush">
                 <ListGroup.Item>
-                    <p><strong>Autor:</strong> {book.author_name?.join(', ') || 'Desconhecido'}</p>
+                    <p><strong>Autor:</strong> {book.author.name || 'Desconhecido'}</p>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                    <p><strong>Ano de publicação:</strong> {Array.isArray(book.publish_date) && book.publish_date.length > 0 
-                                                                ? book.publish_date[0] 
-                                                                : book.publish_date || 'Indisponível'}</p>
+                    <p><strong>Ano de publicação:</strong> {Array.isArray(book.publish_year) && book.publish_date.length > 0 
+                                                                ? book.publish_year 
+                                                                : book.publish_year || 'Indisponível'}</p>
                 </ListGroup.Item>
             </ListGroup>
         </Card.Body>
